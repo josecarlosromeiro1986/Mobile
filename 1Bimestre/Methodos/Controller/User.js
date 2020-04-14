@@ -22,11 +22,13 @@ module.exports = {
         const email = req.body.email;
         const status = req.body.status;
         const idade = req.body.idade;
+        const thumb = req.file.filename;
 
         let user = await User.findOne({ email });
 
         if (!user) {
-            let user = await User.create({ nome, senha, sexo, email, status, idade });
+            let user = await User.create({ nome, senha, sexo, email, status, idade, thumb });
+            return res.json(user);
         }
 
         return res.json(user);

@@ -31,8 +31,9 @@ module.exports = {
             const localidade = data.localidade;
             const uf = data.uf;
             const ibge = data.ibge;
+            let {user_id} = req.headers;
 
-            let endereco = await Endereco.create({ cep, logradouro, complemento, bairro, localidade, uf, ibge });
+            let endereco = await Endereco.create({ cep, logradouro, complemento, bairro, localidade, uf, ibge, user_id });
 
             return res.json(endereco);
         });

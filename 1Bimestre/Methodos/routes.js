@@ -1,14 +1,19 @@
 const express = require('express');
-const routes = express.Router();
+const multer = require('multer');
+
+const UploadConfig = require('./config/upload');
 const UserController = require('./Controller/User');
 const VeiculoController = require('./Controller/Veiculo');
 const ModeloController = require('./Controller/Modelo');
 const MarcaController = require('./Controller/Marca');
 const EnderecoController = require('./Controller/Endereco');
 
+const routes = express.Router();
+const upload = multer(UploadConfig);
+
 routes.get('/users/:id', UserController.show);
 routes.get('/users', UserController.index);
-routes.post('/users', UserController.store);
+routes.post('/users', upload.single('thumb'), UserController.store);
 routes.put('/users/:id', UserController.update);
 routes.delete('/users/:id', UserController.destroy);
 

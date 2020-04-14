@@ -8,6 +8,10 @@ const EnderecoSchema = new mongoose.Schema({
     localidade : String,
     uf : String,
     ibge : String,
+    user_id : {
+        type : mongoose.Schema.Types.ObjectId,
+        ref: 'User'
+    }
 });
 
 module.exports = mongoose.model('Endereco', EnderecoSchema);
