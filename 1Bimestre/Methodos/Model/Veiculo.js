@@ -9,6 +9,7 @@ const VeiculoSchema = new mongoose.Schema({
     ano_fab : Number,
     ano_mod : Number,
     placa :String,
+    thumb : String,
 });
 
 module.exports = mongoose.model('Veiculo', VeiculoSchema);

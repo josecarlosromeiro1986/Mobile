@@ -24,14 +24,15 @@ module.exports = {
         const ano_fab = req.body.ano_fab;
         const ano_mod = req.body.ano_mod;
         const placa = req.body.placa;
+        const thumb = req.file.filename;
 
-        let existe = await Veiculo.findOne({ placa });
+        let veiculo = await Veiculo.findOne({ placa });
 
-        if (!existe) {
-            let veiculo = await Veiculo.create({ nome, motor, portas, cor, combustivel, ano_fab, ano_mod, placa });
+        if (!veiculo) {
+            let veiculo = await Veiculo.create({ nome, motor, portas, cor, combustivel, ano_fab, ano_mod, placa, thumb });
             return res.json(veiculo);
-        } else {
-            return res.json(existe);            
+        }else{
+            return res.status(400).json({error : "Veículo já cadastrado!"});
         }
     },
 
@@ -39,7 +40,19 @@ module.exports = {
 
         let veiculo = await Veiculo.findOne({ _id: req.params.id });
 
-        veiculo.cor = "Chumbo";
+        for (let x in req.body) {
+
+            if (veiculo[x] != undefined) {
+                veiculo[x] = req.body[x];
+            } else {
+                return res.status(400).json({ error: "A key '" + x + "' não existe! " });
+            }
+        }
+        
+        if (req.file != undefined) {
+            veiculo.thumb = req.file.filename;
+        }
+
         veiculo = await Veiculo.updateOne(veiculo);
 
         return res.json(veiculo);

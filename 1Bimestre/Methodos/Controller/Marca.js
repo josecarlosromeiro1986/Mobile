@@ -14,21 +14,38 @@ module.exports = {
 
     },
 
-    async store(req, res) {        
+    async store(req, res) {
 
-        const nome = req.body.nome;  
+        const nome = req.body.nome;
+        const thumb = req.file.filename;
 
-        let marca = await Marca.create({ nome });
+        let marca = await Marca.findOne({ nome });
 
-        return res.json(marca);
-
+        if (!marca) {
+            let marca = await Marca.create({ nome, thumb });
+            return res.json(marca);
+        }else{
+            return res.status(400).json({error : "Marca já cadastrado!"});
+        }
     },
 
     async update(req, res) {
 
         let marca = await Marca.findOne({ _id: req.params.id });
 
-        marca.nome = "Chevrolet";
+        for (let x in req.body) {
+
+            if (marca[x] != undefined) {
+                marca[x] = req.body[x];
+            } else {
+                return res.status(400).json({ error: "A key '" + x + "' não existe! " });
+            }
+        }
+
+        if (req.file != undefined) {
+            marca.thumb = req.file.filename;
+        }
+
         marca = await Marca.updateOne(marca);
 
         return res.json(marca);

@@ -14,16 +14,16 @@ module.exports = {
         let endereco = await Endereco.findOne({ _id: req.params.id });
         return res.json({ endereco });
 
-    },    
+    },
 
     async store(req, res) {
-        
-        request('http://viacep.com.br/ws/'+ req.body.cep +'/json/', async function(error, response, body) {
+
+        request('http://viacep.com.br/ws/' + req.body.cep + '/json/', async function (error, response, body) {
             console.log('error:', error);
             console.log('statusCode:', response && response.statusCode);
 
             var data = JSON.parse(body);
-            
+
             const cep = data.cep;
             const logradouro = data.logradouro;
             const complemento = data.complemento;
@@ -31,7 +31,7 @@ module.exports = {
             const localidade = data.localidade;
             const uf = data.uf;
             const ibge = data.ibge;
-            let {user_id} = req.headers;
+            let { user_id } = req.headers;
 
             let endereco = await Endereco.create({ cep, logradouro, complemento, bairro, localidade, uf, ibge, user_id });
 
@@ -43,14 +43,18 @@ module.exports = {
 
         let endereco = await Endereco.findOne({ _id: req.params.id });
 
-        endereco.logradouro = req.body.logradouro;
-        endereco.complemento = req.body.complemento;
-        endereco.bairro = req.body.bairro;
-        endereco.localidade = req.body.localidade;
+        for (let x in req.body) {
 
-        let teste = await Endereco.updateOne(endereco);
+            if (endereco[x] != undefined) {
+                endereco[x] = req.body[x];
+            } else {
+                return res.status(400).json({ error: "A key '" + x + "' não existe! " });
+            }
+        }
 
-        return res.json(teste);
+        endereco = await Endereco.updateOne(endereco);
+
+        return res.json(endereco);
 
     },
 

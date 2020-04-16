@@ -29,19 +29,23 @@ module.exports = {
         if (!user) {
             let user = await User.create({ nome, senha, sexo, email, status, idade, thumb });
             return res.json(user);
+        }else{
+            return res.status(400).json({error : "Usuário já cadastrado!"});
         }
-
-        return res.json(user);
-
     },
 
     async update(req, res) {
 
         let user = await User.findOne({ _id: req.params.id });
+        
+        for (let x in req.body) {
 
-        user.nome = "Jose Carlos Romeiro";
-        user.email = "josecarlos@gmail.com";
-        user.senha = "123456";
+            if (user[x] != undefined) {
+                user[x] = req.body[x];
+            } else {
+                return res.status(400).json({ error: "A key '" + x + "' não existe! " });
+            }
+        }
 
         user = await User.updateOne(user);
 

@@ -16,19 +16,31 @@ module.exports = {
 
     async store(req, res) {        
 
-        const nome = req.body.nome;  
+        const nome = req.body.nome;
+        
+        let modelo = await Modelo.findOne({ nome });
 
-        let modelo = await Modelo.create({ nome });
-
-        return res.json(modelo);
-
+        if (!modelo) {
+            let modelo = await Modelo.create({ nome });
+            return res.json(modelo);
+        }else{
+            return res.status(400).json({error : "Modelo já cadastrado!"});
+        }
     },
 
     async update(req, res) {
 
         let modelo = await Modelo.findOne({ _id: req.params.id });
 
-        modelo.nome = "Chevrolet";
+        for (let x in req.body) {
+
+            if (modelo[x] != undefined) {
+                modelo[x] = req.body[x];
+            } else {
+                return res.status(400).json({ error: "A key '" + x + "' não existe! " });
+            }
+        }
+
         modelo = await Modelo.updateOne(modelo);
 
         return res.json(modelo);
