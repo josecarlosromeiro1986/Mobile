@@ -46,7 +46,7 @@ module.exports = {
             marca.thumb = req.file.filename;
         }
 
-        marca = await Marca.updateOne(marca);
+        marca = await Marca.updateOne( { _id: req.params.id }, { marca } );
 
         return res.json(marca);
 
