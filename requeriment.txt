@@ -1,0 +1,6 @@
+npm add express
+npm add routes
+nom add request
+npm add nodemon
+npm add mongoose
+npm add multer

@@ -8,10 +8,11 @@
 const express = require('express');
 const routes = require('./routes');
 const mongoose = require('mongoose');
+const cors = require('cors');
 
 const app = express();
 const port = 3000;
-const hostname = "127.0.0.1";
+const hostname = "192.168.0.105";
 
 mongoose.connect('mongodb+srv://jose:290105@cluster0-auahr.mongodb.net/Biqueira?retryWrites=true&w=majority',
     {
@@ -20,6 +21,7 @@ mongoose.connect('mongodb+srv://jose:290105@cluster0-auahr.mongodb.net/Biqueira?
     });
 
 app.use(express.json());
+app.use(cors());
 app.use(routes);
 
 app.listen(port, hostname, () => {
