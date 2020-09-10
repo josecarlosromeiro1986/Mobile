@@ -41,7 +41,7 @@ module.exports = {
     //compara se houve resultado
     if(!user){
       //se nao houver resultado grava o novo usuario
-      user = await User.k({nome,senha,email,status,idade,thumb});
+      user = await User.create({nome,senha,email,status,idade,thumb});
       return res.json(user);
     }else{
       return res.status(400).json({error : "Usuário já cadastrado!"});

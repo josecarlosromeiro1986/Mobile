@@ -11,7 +11,7 @@ const EnderecoSchema =  new mongoose.Schema({
     ibge: Number, 
     user_id : {
         type : mongoose.Schema.Types.ObjectId,
-        ref: 'User'  
+        ref: 'User'
     }
 });
 
