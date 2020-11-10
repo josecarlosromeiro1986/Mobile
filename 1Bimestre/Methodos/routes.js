@@ -9,6 +9,7 @@ const EnderecoController = require('./Controller/Endereco');
 const MateriaController = require('./Controller/Materia');
 const VeiculoController = require('./Controller/Veiculo');
 const NotaController = require('./Controller/Nota');
+const ProtocoloController = require('./Controller/Protocolo');
 
 const routes = express.Router();
 const upload = multer(UploadConfig);
@@ -61,5 +62,11 @@ routes.get('/notas/:id', NotaController.show);
 routes.post('/notas', NotaController.store);
 routes.put('/notas/:id', NotaController.update);
 routes.delete('/notas/:id', NotaController.destroy);
+
+routes.get('/protocolo', ProtocoloController.index);
+routes.get('/protocolo/:id', ProtocoloController.show);
+routes.post('/protocolo', ProtocoloController.store);
+routes.put('/protocolo/:id', ProtocoloController.update);
+routes.delete('/protocolo/:id', ProtocoloController.destroy);
 
 module.exports = routes;

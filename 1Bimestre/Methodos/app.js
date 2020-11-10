@@ -12,7 +12,7 @@ const cors = require('cors');
 
 const app = express();
 const port = 3000;
-const hostname = "192.168.0.105";
+const hostname = "192.168.0.100";
 
 mongoose.connect('mongodb+srv://jose:290105@cluster0-auahr.mongodb.net/Biqueira?retryWrites=true&w=majority',
     {

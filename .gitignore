@@ -1,4 +1,5 @@
 node_modules/
 1Bimestre/Methodos/uploads/
-app/
-app.rar
+app/.expo
+app/.expo-shared
+app/node_modules
